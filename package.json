@@ -11,6 +11,7 @@
     "migrate": "prisma migrate dev --name init"
   },
   "dependencies": {
+    "@adobe/react-spectrum": "^3.34.1",
     "@prisma/client": "^5.10.2",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.62",

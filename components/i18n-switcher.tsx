@@ -11,11 +11,11 @@ interface ItemT {
 const items: ItemT[] = [
   {
     label: "繁體中文",
-    value: "tw",
+    value: "zh-TW",
   },
   {
     label: "English",
-    value: "en",
+    value: "en-US",
   },
 ];
 

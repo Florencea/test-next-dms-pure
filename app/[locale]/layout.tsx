@@ -1,6 +1,7 @@
 import { isLogin } from "@/data/auth";
 import { I18nProviderClient } from "@/locales/client";
 import { getI18n } from "@/locales/server";
+import { LocalizedStringProvider } from "@adobe/react-spectrum/i18n";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "tailwindcss/tailwind.css";
@@ -25,6 +26,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body>
+        <LocalizedStringProvider locale={locale} />
         <I18nProviderClient locale={locale}>
           {(await isLogin()) ? a : u}
         </I18nProviderClient>
