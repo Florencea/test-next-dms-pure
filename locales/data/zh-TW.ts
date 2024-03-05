@@ -2,6 +2,10 @@ export default {
   login: "登入",
   account: "帳號",
   password: "密碼",
+  auth: {
+    "User not found": "帳號不存在",
+    "Wrong password": "密碼錯誤",
+  },
   logout: "登出",
   hello: "歡迎",
   welcome: "歡迎 {name}!",

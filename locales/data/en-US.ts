@@ -2,6 +2,10 @@ export default {
   login: "Login",
   account: "Account",
   password: "Password",
+  auth: {
+    "User not found": "User not found",
+    "Wrong password": "Wrong password",
+  },
   logout: "Logout",
   hello: "Hello",
   welcome: "Hello {name}!",

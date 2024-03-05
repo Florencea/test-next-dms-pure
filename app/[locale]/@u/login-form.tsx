@@ -1,7 +1,10 @@
 "use client";
 
+import { PendingButton } from "@/components/pending-button";
+import { PendingTextField } from "@/components/pending-textfield";
 import { login } from "@/data/auth";
-import { useI18n } from "@/locales/client";
+import { useCurrentLocale, useI18n } from "@/locales/client";
+import { Flex, Form, Heading, InlineAlert } from "@adobe/react-spectrum";
 import {
   type ButtonHTMLAttributes,
   type DetailedHTMLProps,
@@ -64,30 +67,33 @@ const PendingInputPassword = (
 
 export const LoginForm = () => {
   const t = useI18n();
+  const currentLocale = useCurrentLocale();
   const [state, formAction] = useFormState(login, null);
 
   return (
-    <form action={formAction}>
-      <p>{state?.message}</p>
-      <label htmlFor="account">
-        <PendingInput id="account" name="account" autoFocus required />
-        <p>
-          {
-            state?.fieldData?.find(({ name }) => name?.[0] === "account")
-              ?.errors?.[0]
-          }
-        </p>
-      </label>
-      <label htmlFor="password">
-        <PendingInputPassword id="password" name="password" required />
-        <p>
-          {
-            state?.fieldData?.find(({ name }) => name?.[0] === "password")
-              ?.errors?.[0]
-          }
-        </p>
-      </label>
-      <SubmitBtn>{t("login")}</SubmitBtn>
-    </form>
+    <Form
+      maxWidth="size-3600"
+      action={formAction}
+      validationErrors={state?.fieldData}
+    >
+      <Flex direction="column" gap="size-200">
+        {state?.message && (
+          <InlineAlert variant="notice">
+            <Heading>{state.message}</Heading>
+          </InlineAlert>
+        )}
+        <PendingTextField
+          key={currentLocale}
+          width="100%"
+          label={t("account")}
+          name="account"
+          autoFocus
+        />
+        <PendingTextField width="100%" label={t("password")} name="password" />
+        <PendingButton variant="primary" type="submit">
+          {t("login")}
+        </PendingButton>
+      </Flex>
+    </Form>
   );
 };

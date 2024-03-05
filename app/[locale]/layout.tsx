@@ -1,10 +1,9 @@
 import { isLogin } from "@/data/auth";
-import { I18nProviderClient } from "@/locales/client";
 import { getI18n } from "@/locales/server";
 import { LocalizedStringProvider } from "@adobe/react-spectrum/i18n";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "tailwindcss/tailwind.css";
+import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getI18n();
@@ -27,9 +26,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body>
         <LocalizedStringProvider locale={locale} />
-        <I18nProviderClient locale={locale}>
-          {(await isLogin()) ? a : u}
-        </I18nProviderClient>
+        {(await isLogin()) ? a : u}
       </body>
     </html>
   );

@@ -1,4 +1,3 @@
-import type { FieldData } from "@/data/zod";
 import type { ZodError } from "zod";
 
 export const Code = {
@@ -13,7 +12,7 @@ export const Code = {
 export class DataError extends Error {
   status: keyof typeof Code;
   zodError?: ZodError;
-  fieldData?: FieldData[];
+  fieldData?: { [k: string]: string };
   constructor({
     status,
     message,
@@ -23,7 +22,7 @@ export class DataError extends Error {
     status: keyof typeof Code;
     message: string;
     zodError?: ZodError;
-    fieldData?: FieldData[];
+    fieldData?: { [k: string]: string };
   }) {
     super(message);
     this.status = status;

@@ -3,6 +3,7 @@
 import { COOKIE_NAME, COOKIE_PASSWORD } from "@/constants/auth";
 import { DataError } from "@/constants/data";
 import { DEFAULT_PRIVATE_ROUTE, DEFAULT_PUBLIC_ROUTE } from "@/constants/route";
+import { getI18n } from "@/locales/server";
 import { prisma } from "@/prisma";
 import type { User } from "@prisma/client";
 import { verify } from "argon2";
@@ -32,9 +33,7 @@ export const errorHandler = async (err: unknown) => {
   if (err instanceof DataError) return err.toMessage();
   if (err instanceof ZodError)
     return new DataError({
-      message: err.errors
-        .map(({ path, message }) => `${path}: ${message}`)
-        .join(", "),
+      message: "",
       status: "BAD_REQUEST",
       zodError: err,
       fieldData: await convertZodError(err),
@@ -64,6 +63,7 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const login = async (prevState: unknown, formData: FormData) => {
   try {
+    const t = await getI18n();
     const { account, password } = loginSchema.parse(
       Object.fromEntries(formData.entries()),
     );
@@ -74,7 +74,10 @@ export const login = async (prevState: unknown, formData: FormData) => {
     if (!user)
       throw new DataError({
         status: "UNAUTHORIZED",
-        message: "User not found",
+        message: "",
+        fieldData: {
+          account: t("auth.User not found"),
+        },
       });
 
     const match = await verify(user.password, password);
@@ -82,7 +85,10 @@ export const login = async (prevState: unknown, formData: FormData) => {
     if (!match)
       throw new DataError({
         status: "UNAUTHORIZED",
-        message: "Wrong password",
+        message: "",
+        fieldData: {
+          password: t("auth.Wrong password"),
+        },
       });
 
     const session = await getCurrentUser();

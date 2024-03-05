@@ -1,7 +1,8 @@
+import { Providers } from "@/components/providers";
 import { getI18n } from "@/locales/server";
 import { Metadata } from "next";
-import { I18nSwitcher } from "../../../components/i18n-switcher";
 import { LoginForm } from "./login-form";
+import LoginLayout from "./login-layout";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getI18n();
@@ -11,16 +12,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Page() {
-  const t = await getI18n();
+export default async function Page({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
   return (
-    <div className="flex h-svh w-full items-center justify-center">
-      <section>
-        <div>
-          <I18nSwitcher />
-        </div>
+    <Providers locale={locale}>
+      <LoginLayout>
         <LoginForm />
-      </section>
-    </div>
+      </LoginLayout>
+    </Providers>
   );
 }
