@@ -9,11 +9,10 @@ import { verify } from "argon2";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { cache } from "react";
 import { ZodError, z } from "zod";
 import { convertZodError } from "./zod";
 
-export const getCurrentUser = cache(async () => {
+export const getCurrentUser = async () => {
   const user = getIronSession<Partial<Pick<User, "id" | "account" | "name">>>(
     cookies(),
     {
@@ -22,7 +21,7 @@ export const getCurrentUser = cache(async () => {
     },
   );
   return user;
-});
+};
 
 export const isLogin = async () => {
   const user = await getCurrentUser();
